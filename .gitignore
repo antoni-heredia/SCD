@@ -1,0 +1,9 @@
+# Las versiones antiguas de los editores
+*~
+
+# Los directorios bin y obj
+bin/
+obj/
+lib/
+*.tar
+.vscode
