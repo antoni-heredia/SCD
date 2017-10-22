@@ -15,7 +15,7 @@ const int num_items = 40 ,   // número de items
 	       tam_vec   = 10 ;   // tamaño del buffer
 unsigned  cont_prod[num_items] = {0}, // contadores de verificación: producidos
           cont_cons[num_items] = {0}, // contadores de verificación: consumidos
-	  vec[tam_vec] = {0};
+vec[tam_vec] = {0};
 Semaphore producidos = tam_vec;
 Semaphore consumidos = 0;
 //**********************************************************************
@@ -54,7 +54,7 @@ void consumir_dato( unsigned dato )
    this_thread::sleep_for( chrono::milliseconds( aleatorio<20,100>() ));
 
    cout << "                  consumido: " << dato << endl ;
-   
+
 }
 
 
@@ -85,10 +85,10 @@ void  funcion_hebra_productora(  )
    for( unsigned i = 0 ; i < num_items ; i++ )
    {
 
-      	int dato = producir_dato() ;
-	sem_wait(producidos);      
-	vec[i%tam_vec] = dato;
-	sem_signal(consumidos); 
+	  	int dato = producir_dato() ;
+			sem_wait(producidos);
+			vec[i%tam_vec] = dato;
+			sem_signal(consumidos);
 
    }
 }
@@ -99,11 +99,11 @@ void funcion_hebra_consumidora(  )
 {
    for( unsigned i = 0 ; i < num_items ; i++ )
    {
-      	int dato ;
-	sem_wait(consumidos);
-	dato = vec[i%tam_vec];
-	sem_signal(producidos);
-   	consumir_dato( dato ) ;
+	    int dato ;
+			sem_wait(consumidos);
+			dato = vec[i%tam_vec];
+			sem_signal(producidos);
+	   	consumir_dato( dato ) ;
 
     }
 }

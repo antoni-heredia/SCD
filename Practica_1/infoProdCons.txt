@@ -1,0 +1,17 @@
+----------prodconFIFO1----------
+La variable que determina en que posicion se puede leer y en cual se puede escribir es la  variable del for,
+es decir i%tam_vec.
+Uso dos semaforo, producidos y consumidos. El producidos tendra un valor inicial de tam_vec, ya que es la cantidad
+maxima de datos producidos a la vez que podemos tener. El semaforo consumidos se inicia a 0 debido a que todavia no
+hay ningun dato producido para consumir.
+El sem_wait de producidos se hara en la hebra productora antes de poder insentar el dato en el vector.
+El sem_signal se realiza en la hebra consumidora una vez que se ha gastado el dato. El sem_wait del semaforo consumidos se
+realizara antes de consumir un dato del vector para asegurarse que hay alguno
+insertado en el vector. El sem_signal de consumidos se realiza cuando se ha insertado el dato, para indicar que ya hay
+al menos uno disponible.
+
+----------prodconFIFO1----------
+La variable que determina en que posición se puede escribir en el buffer es primera_libre. Esta se incrementa
+cada vez que se inserta un dato en el buffer.
+La variable que determina en que posicion del buffer se puede leer es primera_ocupada.
+Los semaforos siguen igual que en la anterior soluucion.

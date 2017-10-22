@@ -56,7 +56,7 @@ void consumir_dato( unsigned dato )
    this_thread::sleep_for( chrono::milliseconds( aleatorio<20,100>() ));
 
    cout << "                  consumido: " << dato << endl ;
-   
+
 }
 
 
@@ -87,10 +87,10 @@ void  funcion_hebra_productora(  )
    for( unsigned i = 0 ; i < num_items ; i++ )
    {
 	int dato = producir_dato() ;
-	sem_wait(producidos);      
+	sem_wait(producidos);
 	buffer[primera_libre%tam_vec] = dato;
 	primera_libre++;
-	sem_signal(consumidos); 
+	sem_signal(consumidos);
    }
 }
 
@@ -100,12 +100,12 @@ void funcion_hebra_consumidora(  )
 {
    for( unsigned i = 0 ; i < num_items ; i++ )
    {
-      	int dato ;
-	sem_wait(consumidos);
-	dato = buffer[primera_ocupada%tam_vec];
-	primera_ocupada++;
-	sem_signal(producidos);
-   	consumir_dato( dato ) ;
+	    int dato ;
+			sem_wait(consumidos);
+			dato = buffer[primera_ocupada%tam_vec];
+			primera_ocupada++;
+			sem_signal(producidos);
+	   	consumir_dato( dato ) ;
     }
 }
 //----------------------------------------------------------------------

@@ -1,0 +1,11 @@
+mostr_vacio
+  Se usa para saber cuando el mostrador esta vacio y se puede colocar algun elemento
+  El valor inicial sera a 1, por que no habra todavia ningun ingrediente
+  El wait se hace antes de producir de poder crear un incrediente el estanquero.
+  El signal una vez que un fumador lo recoge
+ingr_disp
+  Es un vector de 3 semaforos. Se usa para saber cuando uno de los 3 ingredientes esta disponible
+  El valor inicial es los 3 a 0 ya que al principio todavia no se a producido ningun ingrediente
+  El wait se hace antes de que un un fumador i pueda usar el ingrediente disponible i.
+  El signal se realiza cuando se ha producido un ingrediente i por parte del estanquero y lo
+  a puesto en el mostrador
