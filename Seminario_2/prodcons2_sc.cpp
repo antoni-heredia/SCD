@@ -56,7 +56,7 @@ template< int min, int max > int aleatorio()
 int producir_dato(int nh)
 {
    int contador = cantidad_producida[nh]+((num_items/np)*nh);
-   this_thread::sleep_for( chrono::milliseconds( aleatorio<20,100>() ));
+   //this_thread::sleep_for( chrono::milliseconds( aleatorio<20,100>() ));
    mtx.lock();
    cout << "producido: " << contador << endl << flush ;
    mtx.unlock();
