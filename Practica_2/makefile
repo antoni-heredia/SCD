@@ -5,6 +5,8 @@ hmonsrcs:= HoareMonitor.hpp HoareMonitor.cpp
 fumadores_su.out: fumadores_su.cpp $(hmonsrcs)
 	$(compilador) $(opcionesc)  -o $@ $<  HoareMonitor.cpp
 
+barbero_su.out: barbero_su.cpp $(hmonsrcs)
+	$(compilador) $(opcionesc)  -o $@ $<  HoareMonitor.cpp
 
 
 clean:

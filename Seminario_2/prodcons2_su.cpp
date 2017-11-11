@@ -134,8 +134,7 @@ class ProdCons2SU : public HoareMonitor
  int                        // variables permanentes
    buffer[num_celdas_total],//  buffer de tamaño fijo, con los datos
    primera_libre ;          //  indice de celda de la próxima inserción
- mutex
-   cerrojo_monitor ;        // cerrojo del monitor
+
  CondVar         // colas condicion:
    ocupadas,                //  cola donde espera el consumidor (n>0)
    libres ;                 //  cola donde espera el productor  (n<num_celdas_total)

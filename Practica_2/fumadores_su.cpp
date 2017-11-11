@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cassert>
-#include <mutex>
 #include <random> // dispositivos, generadores y distribuciones aleatorias
 #include <chrono> // duraciones (duration), unidades de tiempo
 #include "HoareMonitor.hpp"
@@ -8,12 +7,55 @@
 using namespace std ;
 using namespace HM ;
 
-class MFumadoresSU : public HoareMonitor
-{
+const int CANT_INGRE = 3;
+mutex mtx ; 
+class Estanco : public HoareMonitor{
 
+private:
+  
+  bool hayIngrediente[CANT_INGRE];
+  bool ingredinet;
+  CondVar estanquero;
+  CondVar fumador[CANT_INGRE];
+public:
+  Estanco();
+  void obtenerIngrediente(int i);
+  void ponerIngrediente(int i);
+  void esperarRecogidaIngrediente();
+          
+};
 
+Estanco::Estanco(){
+ingredinet = false;
+  estanquero = newCondVar();
+  for(int i = 0; i<CANT_INGRE; i++){
+    fumador[i] = newCondVar();
+    hayIngrediente[i] = false;
+  }
 
 }
+
+void Estanco::obtenerIngrediente(int i ){
+  if(!hayIngrediente[i])
+    fumador[i].wait();
+
+  estanquero.signal();
+  hayIngrediente[i] = false;
+  ingredinet = false;
+}
+
+void Estanco::ponerIngrediente(int i){
+  ingredinet= true;
+  hayIngrediente[i] = true;
+  cout << "El estanquero a producido el ingrediente: " << i << endl;
+  fumador[i].signal();
+}
+
+void Estanco::esperarRecogidaIngrediente(){
+  if(ingredinet)
+    estanquero.wait();
+}
+
 template< int min, int max > int aleatorio()
 {
   static default_random_engine generador( (random_device())() );
@@ -30,16 +72,14 @@ int Producir(){
 
 //----------------------------------------------------------------------
 // función que ejecuta la hebra del estanquero
-Semaphore mostr_vacio = 1;
-Semaphore ingr_disp[3] = {0,0,0};
-void funcion_hebra_estanquero(  )
+
+void funcion_hebra_estanquero( MRef<Estanco> estanco)
 {
   int i;
   while(true){
-    mostr_vacio.sem_wait();
     i = Producir();
-    cout << "El estanquero a producido el ingrediente: " << i << endl;
-    ingr_disp[i].sem_signal();
+    estanco->ponerIngrediente(i);
+    estanco->esperarRecogidaIngrediente();
   }
 }
 
@@ -53,9 +93,10 @@ void fumar( int num_fumador )
    chrono::milliseconds duracion_fumar( aleatorio<20,200>() );
 
    // informa de que comienza a fumar
-
+    mtx.lock();
     cout << "Fumador " << num_fumador << "  :"
           << " empieza a fumar (" << duracion_fumar.count() << " milisegundos)" << endl;
+    mtx.unlock();
 
    // espera bloqueada un tiempo igual a ''duracion_fumar' milisegundos
    this_thread::sleep_for( duracion_fumar );
@@ -68,14 +109,17 @@ void fumar( int num_fumador )
 
 //----------------------------------------------------------------------
 // función que ejecuta la hebra del fumador
-void  funcion_hebra_fumador( int num_fumador )
+void  funcion_hebra_fumador( MRef<Estanco> estanco, int num_fumador )
 {
    while( true )
    {
-      sem_wait(ingr_disp[num_fumador]);
-      cout << "retirado ingr: " << num_fumador << endl;
-      sem_signal(mostr_vacio);
-      fumar(num_fumador);
+
+    estanco->obtenerIngrediente(num_fumador);
+    mtx.lock();
+    cout << "retirado ingr: " << num_fumador << endl;
+    mtx.unlock();
+
+    fumar(num_fumador);
    }
 }
 
@@ -83,15 +127,17 @@ void  funcion_hebra_fumador( int num_fumador )
 
 int main()
 {
-  thread thread_estan (funcion_hebra_estanquero);
 
-  //Vector con los fumadores
+  MRef<Estanco> monitor = Create<Estanco>();
+
+  thread thread_estan (funcion_hebra_estanquero, monitor);
   thread thread_fumadores [ 3 ];
-  for(int i=0;i < 3; i++)
-    thread_fumadores[i] = thread( funcion_hebra_fumador,i );
+
+  for(int i=0;i < CANT_INGRE; i++)
+    thread_fumadores[i] = thread( funcion_hebra_fumador,monitor,i );
 
    //Hacemos el join con las hebras.
    thread_estan.join() ;
-   for(int j=0;j < 3; j++)
+   for(int j=0;j < CANT_INGRE; j++)
      thread_fumadores[j].join();
 }
