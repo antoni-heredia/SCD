@@ -14,7 +14,7 @@ class Estanco : public HoareMonitor{
 private:
   
   bool hayIngrediente[CANT_INGRE];
-  bool ingredinet;
+  bool ingrediente;
   CondVar estanquero;
   CondVar fumador[CANT_INGRE];
 public:
@@ -26,8 +26,10 @@ public:
 };
 
 Estanco::Estanco(){
-ingredinet = false;
+
+  ingrediente = false;
   estanquero = newCondVar();
+  //Por defecto no hay ningun ingrediente
   for(int i = 0; i<CANT_INGRE; i++){
     fumador[i] = newCondVar();
     hayIngrediente[i] = false;
@@ -36,23 +38,24 @@ ingredinet = false;
 }
 
 void Estanco::obtenerIngrediente(int i ){
+  //Si no hay ingrediente esperamos
   if(!hayIngrediente[i])
     fumador[i].wait();
 
   estanquero.signal();
   hayIngrediente[i] = false;
-  ingredinet = false;
+  ingrediente = false;
 }
 
 void Estanco::ponerIngrediente(int i){
-  ingredinet= true;
+  ingrediente= true;
   hayIngrediente[i] = true;
   cout << "El estanquero a producido el ingrediente: " << i << endl;
   fumador[i].signal();
 }
 
 void Estanco::esperarRecogidaIngrediente(){
-  if(ingredinet)
+  if(ingrediente)
     estanquero.wait();
 }
 
@@ -93,8 +96,7 @@ void fumar( int num_fumador )
    chrono::milliseconds duracion_fumar( aleatorio<20,200>() );
 
    // informa de que comienza a fumar
-    mtx.lock();
-    cout << "Fumador " << num_fumador << "  :"
+      cout << "Fumador " << num_fumador << "  :"
           << " empieza a fumar (" << duracion_fumar.count() << " milisegundos)" << endl;
     mtx.unlock();
 

@@ -5,8 +5,7 @@
 using namespace std ;
 using namespace HM;
 
-mutex
-   mtx ;  
+  
 template< int min, int max > int aleatorio()
 {
   static default_random_engine generador( (random_device())() );
@@ -14,13 +13,13 @@ template< int min, int max > int aleatorio()
   return distribucion_uniforme( generador );
 }
 
-const int N_CLIENTES = 3;
+const int N_CLIENTES = 5;
 class Barberia : public HoareMonitor{
 private:
 CondVar barbero,
-        sala_espera;
-bool ocupada;
-bool hayClientes;
+        sala_espera,
+        silla;
+int clienteActual;
 public:
 Barberia();
 
@@ -33,63 +32,52 @@ void finDeCliente();
 Barberia::Barberia(){
     barbero = newCondVar();
     sala_espera = newCondVar();
-    ocupada = false;
-    hayClientes = false;
+    silla = newCondVar();
+    
 }
 
 void Barberia::cortarPelo(int i){
-    
-    if(ocupada)
+    while(!silla.empty())
         sala_espera.wait();
-    
 
-    mtx.lock();
-    cout << "Se sienta en la silla el cliente: " << i << endl;
-    mtx.unlock();
-    hayClientes = true;
     
     if(!barbero.empty()){
-        mtx.lock();
-        cout << "Se despierta el barbero" << endl;
-        mtx.unlock();
-        barbero.signal();
+        cout << "Cliente: " << i << " despierta al barbero" << endl;
     }
-
+    cout << "Cliente: " << i << " se sienta en la silla" << endl;
+    barbero.signal();
     
+    silla.wait();
 }
 
 void Barberia::siguienteCliente(){
     
-    if(!hayClientes){
-        mtx.lock();
-        cout << "El barbero se duerme" << endl;
-        mtx.unlock();
-        barbero.wait();        
+    if(silla.empty() && sala_espera.empty()){
+        cout << "El barbero duerme" << endl;
+
+        barbero.wait();
+
     }
 
-    ocupada = true;
+    sala_espera.signal();
+
 }
 
 void Barberia::finDeCliente(){
-    
-    ocupada = false;
-    hayClientes = false;
-    sala_espera.signal();
+        silla.signal();
 }
 
 void esperarFueraBarberia(int i){
-    mtx.lock();
     cout << "El cliente: " << i << " espera fuera" << endl;
-    mtx.unlock();
 
     this_thread::sleep_for( chrono::milliseconds( aleatorio<20,100>() ));
-    mtx.lock();
+
     cout << "El cliente: " << i << " entra" << endl;
-    mtx.unlock();
 
 }
 
 void cortarPeloCliente(){
+    cout << "Se corta el pelo al cliente" << endl;
     this_thread::sleep_for( chrono::milliseconds( aleatorio<20,100>() ));
 }
 
@@ -115,13 +103,13 @@ int main()
   MRef<Barberia> barberia = Create<Barberia>();
 
   thread thread_barbero (hebraBarbero, barberia);
-  thread thread_cliente[ 3 ];
+  thread thread_cliente[ N_CLIENTES ];
 
-  for(int i=0;i < 3; i++)
+  for(int i=0;i < N_CLIENTES; i++)
     thread_cliente[i] = thread( hebraCliente,barberia,i );
 
    //Hacemos el join con las hebras.
    thread_barbero.join() ;
-   for(int j=0;j < 3; j++)
+   for(int j=0;j < N_CLIENTES; j++)
      thread_cliente[j].join();
 }

@@ -1,0 +1,147 @@
+El barbero duerme
+Cliente: 0 despierta al barbero
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 entra
+El cliente: 1 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 entra
+El cliente: 2 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 entra
+El cliente: 2 entra
+El cliente: 4 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 entra
+El cliente: 0 entra
+El cliente: 1 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 entra
+El cliente: 1 entra
+El cliente: 2 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 2 entra
+El cliente: 4 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 entra
+El cliente: 0 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 entra
+El cliente: 3 entra
+El cliente: 1 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 entra
+El cliente: 2 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 2 entra
+El cliente: 4 entra
+El cliente: 0 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 entra
+El cliente: 3 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 entra
+El cliente: 2 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 entra
+El cliente: 2 entra
+El cliente: 4 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 entra
+El cliente: 0 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 entra
+El cliente: 3 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 entra
+El cliente: 1 entra
+El cliente: 2 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 entra
+El cliente: 0 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 2 entra
+El cliente: 0 entra
+El cliente: 3 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 3 entra
+El cliente: 1 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 entra
+El cliente: 4 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 4 entra
+El cliente: 2 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 2 entra
+El cliente: 3 espera fuera
+Cliente: 1 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 0 entra
+El cliente: 3 entra
+El cliente: 1 espera fuera
+Cliente: 4 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 1 entra
+El cliente: 4 espera fuera
+Cliente: 2 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 2 espera fuera
+Cliente: 0 se sienta en la silla
+Se corta el pelo al cliente
+El cliente: 2 entra
+El cliente: 4 entra
+El cliente: 0 espera fuera
+Cliente: 3 se sienta en la silla
+Se corta el pelo al cliente

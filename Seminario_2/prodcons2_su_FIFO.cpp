@@ -1,29 +1,3 @@
-// -----------------------------------------------------------------------------
-//
-// Sistemas concurrentes y Distribuidos.
-// Seminario 2. Introducción a los monitores en C++11.
-//
-// archivo: prodcons_1.cpp
-// Ejemplo de un monitor en C++11 con semántica SC, para el problema
-// del productor/consumidor, con un único productor y un único consumidor.
-// Opcion LIFO (stack)
-//
-// Historial:
-// Creado en Julio de 2017
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-//
-// Sistemas concurrentes y Distribuidos.
-// Seminario 2. Introducción a los monitores en C++11.
-//
-// archivo: barrera2_su.cpp
-// Ejemplo de un monitor 'Barrera' parcial, con semántica SU
-//
-// Historial:
-// Creado en Julio de 2017
-// -----------------------------------------------------------------------------
-
 
 #include <iostream>
 #include <iomanip>
@@ -229,7 +203,7 @@ void funcion_hebra_consumidora(  MRef<ProdCons2SU> monitor, int nh )
 int main()
 {
   cout << "-------------------------------------------------------------------------------" << endl
-  << "Problema de los productores-consumidores (varios prod/cons, Monitor SC, buffer FIFO). " << endl
+  << "Problema de los productores-consumidores (varios prod/cons, Monitor SU, buffer FIFO). " << endl
   << "-------------------------------------------------------------------------------" << endl
   << flush ;
 

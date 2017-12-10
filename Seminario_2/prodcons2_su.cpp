@@ -223,7 +223,7 @@ void funcion_hebra_consumidora(  MRef<ProdCons2SU> monitor, int nh )
 int main()
 {
   cout << "-------------------------------------------------------------------------------" << endl
-  << "Problema de los productores-consumidores (varios prod/cons, Monitor SC, buffer LIFO). " << endl
+  << "Problema de los productores-consumidores (varios prod/cons, Monitor SU, buffer LIFO). " << endl
   << "-------------------------------------------------------------------------------" << endl
   << flush ;
 
