@@ -24,16 +24,17 @@ using namespace std::this_thread ;
 using namespace std::chrono ;
 
 const int
-  np=4,
-  nc=5,
+  np=10,
+  nc=2,
   etiq_productor          = 0 , // identificador del proceso productor
   etiq_consumidor         = 2 , // identificador del proceso consumidor
   num_items             = 20,
   tam_vector            = 10;
 
 const int
-  num_procesos_esperado = np+nc , // número total de procesos esperado
-  k = num_items/np,
+  num_procesos_esperado = np+nc+1 , // número total de procesos esperado
+  k_pro = num_items/np,
+  k_consumir = num_items/nc,
   id_buffer             = np; // identificador del proceso buffer
 
 
@@ -55,20 +56,20 @@ template< int min, int max > int aleatorio()
 // y lleva espera aleatorio
 int producir(int num_orden, int i)
 {
-   cout << "Productor ha producido valor " << num_orden*k+i << endl << flush;
-   return num_orden*k+i ;
+   cout << "Productor ha producido valor " << num_orden*k_pro+i << endl << flush;
+   return num_orden*k_pro+i ;
 }
 // ---------------------------------------------------------------------
 
 void funcion_productor(int num_orden)
 { 
-   for ( unsigned int i= 0 ; i < k ; i++ )
+   for ( unsigned int i= 0 ; i < k_pro ; i++ )
    {
       // producir valor
       int valor_prod = producir(num_orden, i);
       // enviar valor
       cout << "Productor va a enviar valor " << valor_prod << endl << flush;
-      MPI_Ssend( &valor_prod, 1, MPI_INT, id_buffer, 0, MPI_COMM_WORLD );
+      MPI_Ssend( &valor_prod, 1, MPI_INT, id_buffer, etiq_productor, MPI_COMM_WORLD );
    }
 }
 // ---------------------------------------------------------------------
@@ -87,8 +88,9 @@ void funcion_consumidor(int num_orden)
                valor_rec = 1 ;
    MPI_Status  estado ;
 
-   for( unsigned int i=k*num_orden ; i < k*num_orden+k; i++ )
+   for( unsigned int i=k_consumir*num_orden ; i < k_consumir*num_orden+k_consumir; i++ )
    {
+
       MPI_Ssend( &peticion,  1, MPI_INT, id_buffer, etiq_consumidor, MPI_COMM_WORLD);
       MPI_Recv ( &valor_rec, 1, MPI_INT, id_buffer, etiq_consumidor, MPI_COMM_WORLD,&estado );
       cout << "Consumidor ha recibido valor " << valor_rec << endl << flush ;
@@ -166,21 +168,21 @@ int main( int argc, char *argv[] )
         valor_pro++;
         id_vecino = id_propio + 1 ;
         cout << "El productor " << id_propio << " envia el valor " << valor_pro << " al productor " << id_vecino << flush;
-        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD );
+        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD );
 
       }else if(id_propio > 0 && id_propio < np-1){
 
         id_vecino = id_propio-1 ;
-        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD, &estado );
+        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD, &estado );
         funcion_productor(valor_pro);            //    ejecutar función del productor
 
         id_vecino = id_propio+1;
         valor_pro++;
         cout << "El productor " << id_propio << " envia el valor " << valor_pro << " al productor " << id_vecino << flush;
-        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD );
+        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD );
       }else{
         id_vecino = id_propio-1 ;
-        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD, &estado );
+        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD, &estado );
         funcion_productor(valor_pro);            //    ejecutar función del productor
         
       }
@@ -193,21 +195,21 @@ int main( int argc, char *argv[] )
         valor_pro++;
         id_vecino = id_propio + 1 ;
         cout << "El productor " << id_propio << " envia el valor " << valor_pro << " al productor " << id_vecino << flush;
-        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD );
+        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD );
 
-      }else if(id_propio > np+1 && id_propio < np+nc-1){
+      }else if(id_propio > np+1 && id_propio < np+nc){
 
         id_vecino = id_propio-1 ;
-        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD, &estado );
+        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD, &estado );
         funcion_consumidor(valor_pro);            //    ejecutar función del productor
 
         id_vecino = id_propio+1;
         valor_pro++;
         cout << "El productor " << id_propio << " envia el valor " << valor_pro << " al productor " << id_vecino << flush;
-        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD );
+        MPI_Ssend( &valor_pro,  1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD );
       }else{
         id_vecino = id_propio-1 ;
-        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, etiq_productor, MPI_COMM_WORLD, &estado );
+        MPI_Recv ( &valor_pro, 1, MPI_INT, id_vecino, 10, MPI_COMM_WORLD, &estado );
         funcion_consumidor(valor_pro);            //    ejecutar función del productor
       }
    }
